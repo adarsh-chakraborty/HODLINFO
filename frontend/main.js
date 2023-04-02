@@ -4,8 +4,6 @@ const selectControl = document.querySelector('#controls');
 const selectOption2 = document.querySelector('#select2');
 const buyBtn = document.querySelector('#buyBtn');
 
-const BACKEND_URL = '/api/coins';
-
 selectOption2.addEventListener('change', function () {
   buyBtn.textContent = `Buy ${selectOption2.value}`;
 });
@@ -20,7 +18,7 @@ setInterval(function () {
 }, 1000);
 
 async function fetchData() {
-  const response = await fetch(BACKEND_URL);
+  const response = await fetch('/api/coins');
   const data = await response.json();
   console.log(data);
   renderCoinTable(data);
@@ -43,7 +41,7 @@ function renderControls(coins) {
 
 function renderCoinTable(coins) {
   let html = '';
-  tableIndex = 0;
+  let tableIndex = 0;
   for (let coin of coins) {
     html += `<tr>
     <td>${++tableIndex}</td>
