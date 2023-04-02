@@ -1,25 +1,25 @@
 const path = require('path');
 const mongoose = require('mongoose');
 const express = require('express');
-const cors = require('cors');
 const axios = require('axios');
 
 const COIN = require('./models/COIN');
+const apiRoutes = require('./routes/apiRoutes');
 
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+// static
 app.use(express.static('dist'));
+
+// Root
 app.get('/', (req, res, next) => {
   res.sendFile(path.join(path.resolve(), 'dist', 'index.html'));
 });
-app.get('/api/coins', async (req, res, next) => {
-  const coins = await COIN.find({});
-  res.send(coins);
-});
+
+app.use('/api', apiRoutes);
 
 mongoose
   .connect(process.env.MONGODB, {
